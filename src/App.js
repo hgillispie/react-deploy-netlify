@@ -10,7 +10,7 @@ import Profile from "./views/Profile";
 import ExternalApi from "./views/ExternalApi";
 import { useAuth0 } from "@auth0/auth0-react";
 import history from "./utils/history";
-import { useVisitorData } from '@fingerprintjs/fingerprintjs-pro-react'
+
 
 // styles
 import "./App.css";
@@ -21,7 +21,7 @@ initFontAwesome();
 
 const App = () => {
   const { isLoading, error } = useAuth0();
-const {data, getData} = useVisitorData();
+
 
 
 
@@ -41,7 +41,7 @@ const {data, getData} = useVisitorData();
 
         <NavBar />
         <Container className="flex-grow-1 mt-5">
-    
+
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/profile" component={Profile} />
@@ -51,11 +51,11 @@ const {data, getData} = useVisitorData();
         <Footer />
 
       </div>
-   
+
     </Router>
 
 
-);
+  );
 
 };
 

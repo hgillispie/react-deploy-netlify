@@ -6,7 +6,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Auth0Provider } from "@auth0/auth0-react";
 import history from "./utils/history";
-import { getConfig } from "./config";
+
 import { FpjsProvider } from '@fingerprintjs/fingerprintjs-pro-react';
 const onRedirectCallback = (appState) => {
   history.push(
@@ -35,7 +35,7 @@ const onRedirectCallback = (appState) => {
 // console.log(id + ' second call')
 // return id
 // }
-const config = getConfig();
+// const config = getConfig();
 
 const providerConfig = {
   domain: 'hunter-demo.auth0.com',

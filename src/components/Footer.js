@@ -1,5 +1,5 @@
 import React from "react";
-import { useVisitorData } from "@fingerprintjs/fingerprintjs-pro-react";
+
 
 const Footer = () => (
 
