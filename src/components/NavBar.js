@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FpPromise } from '../utils/fp.js'
+
+import { FpjsClient } from '@fingerprintjs/fingerprintjs-pro-spa';
+
 
 import {
   Collapse,
@@ -37,32 +41,53 @@ const NavBar = (props) => {
       returnTo: window.location.origin,
     });
 
-    const fpPromise = import('https://fpcdn.io/v3/eJCjdtCIXZVuVZlawI6Z')
-    .then(FingerprintJS => FingerprintJS.load())
-    // Get the visitor identifier when you need it.
-    const fingerPrint = fpPromise
-    .then(fp => fp.get())
-    .then(result => {
-      // This is the visitor identifier:
-      const visitorId = result.visitorId
-      const requestId = result.requestId
-      console.log(visitorId + ' first call ' + requestId)
-      return `${visitorId} ${requestId}`
-    })
-    
-    
-    const getFingerprint = async() => {
-    const id = await fingerPrint;
+
+  // It can receive mulptiple parameters but the only required one is `loadOptions`, which contains the public API key
+  const fpjsClient = new FpjsClient({
+    loadOptions: {
+      apiKey: "eJCjdtCIXZVuVZlawI6Z" // insert your public api key from the dashboard here
+    }
+  });
+
+  const visitorData = fpjsClient.init().then(() => {
+    return fpjsClient.getVisitorData()
+  }).then(result => {
+    // This is the visitor identifier:
+    const visitorId = result.visitorId
+    const requestId = result.requestId
+    console.log(visitorId + ' first call ' + requestId)
+    return `${visitorId} ${requestId}`
+  })
+
+
+
+
+  // const fpPromise = import('https://fpcdn.io/v3/eJCjdtCIXZVuVZlawI6Z')
+  //   .then(FingerprintJS => FingerprintJS.load())
+  // // Get the visitor identifier when you need it.
+  // const fingerPrint = fpPromise
+  //   .then(fp => fp.get())
+  //   .then(result => {
+  //     // This is the visitor identifier:
+  //     const visitorId = result.visitorId
+  //     const requestId = result.requestId
+  //     console.log(visitorId + ' first call ' + requestId)
+  //     return `${visitorId} ${requestId}`
+  //   })
+
+
+  const getFingerprint = async () => {
+    const id = await visitorData;
     console.log(id + ' second call')
     return id
-    }
+  }
 
-    async function loginWithFingerprint(){
-      console.log('before async function')
-      // await getFingerprint()
-      // console.log('after async function')
-      return loginWithRedirect({fingerprint: await getFingerprint()})
-    }
+  async function loginWithFingerprint() {
+    console.log('before async function')
+    // await getFingerprint()
+    console.log('after async function')
+    return loginWithRedirect({ fingerprint: await getFingerprint() })
+  }
 
   return (
     <div className="nav-container">
